@@ -12,18 +12,17 @@ import java.util.ArrayList;
 
 public class EarthquakeFragment extends Fragment {
 
-    private ListView mListView;
     private EarthquakeFeedAdapter mAdapter;
 
     public EarthquakeFragment() {
-        mAdapter = new EarthquakeFeedAdapter();
+        mAdapter = new EarthquakeFeedAdapter(getActivity().getApplicationContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_earthquake, container, false);
 
-        mListView = (ListView) view.findViewById(R.id.listview_earthquake);
+        ListView mListView = (ListView) view.findViewById(R.id.listview_earthquake);
         mListView.setAdapter(mAdapter);
 
         String[] feedUrls = getResources().getStringArray(R.array.earthquake_filter_values);

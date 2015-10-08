@@ -42,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
         setEarthquakeFragment();
     }
 
+    private void setEarthquakeFragment() {
+        mToolbar.setTitle(getResources().getString(R.string.app_name));
+        mToolbar.setBackgroundResource(R.color.action_bar);
+
+        mSpinner.setVisibility(View.VISIBLE);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, mEarthquakeFragment);
+        transaction.commit();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -62,16 +73,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setEarthquakeFragment() {
-        mToolbar.setTitle(getResources().getString(R.string.app_name));
-        mToolbar.setBackgroundResource(R.color.action_bar);
-
-        mSpinner.setVisibility(View.VISIBLE);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, mEarthquakeFragment);
-        transaction.commit();
     }
 }

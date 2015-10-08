@@ -1,5 +1,6 @@
 package com.github.funnygopher.whatsshakin;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -23,9 +24,11 @@ import java.util.Locale;
 
 public class EarthquakeFeedAdapter extends BaseAdapter {
 
+    private Context mContext;
     private List<Earthquake> mEarthquakes;
 
-    public EarthquakeFeedAdapter() {
+    public EarthquakeFeedAdapter(Context context) {
+        mContext = context;
         mEarthquakes = new ArrayList<>();
     }
 
@@ -74,18 +77,26 @@ public class EarthquakeFeedAdapter extends BaseAdapter {
 
     public class GetEarthquakeFeedTask extends AsyncTask<Void, Void, List<Earthquake>> {
 
-        private EarthquakeFeedAdapter adapter;
-        private String feedUrl;
+        private ProgressDialog mProgressDialog;
+        private EarthquakeFeedAdapter mAdapter;
+        private String mFeedUrl;
 
         public GetEarthquakeFeedTask(EarthquakeFeedAdapter adapter, String feedUrl) {
-            this.adapter = adapter;
-            this.feedUrl = feedUrl;
+            this.mAdapter = adapter;
+            this.mFeedUrl = feedUrl;
+            mProgressDialog = new ProgressDialog(mContext);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog.setMessage("Sensing trembles...");
+            mProgressDialog.show();
         }
 
         @Override
         protected List<Earthquake> doInBackground(Void... params) {
             try {
-                return getEarthquakes(feedUrl);
+                return getEarthquakes(mFeedUrl);
             } catch (XmlPullParserException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -96,9 +107,13 @@ public class EarthquakeFeedAdapter extends BaseAdapter {
 
         @Override
         protected void onPostExecute(List<Earthquake> earthquakeList) {
+            if (mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+            }
+
             mEarthquakes.clear();
             mEarthquakes.addAll(earthquakeList);
-            adapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
 
         private List<Earthquake> getEarthquakes(String url) throws IOException, XmlPullParserException {
