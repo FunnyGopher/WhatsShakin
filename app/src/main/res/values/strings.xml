@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">What\'s Shakin</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="earthquake_filter_titles">
+        <item>Hour</item>
+        <item>Day</item>
+        <item>Month</item>
+    </string-array>
+
+    <string-array name="earthquake_filter_values">
+        <item>http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.quakeml</item>
+        <item>http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.quakeml</item>
+        <item>http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.quakeml</item>
+    </string-array>
+
+
+</resources>
