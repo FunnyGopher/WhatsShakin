@@ -1,2 +1,2 @@
 # WhatsShakin
-An example app for CSC330 Mobile Development. The application shows recent earthquakes in the US.
+An example app for CSC330 Mobile Development. The application shows recent earthquakes.
