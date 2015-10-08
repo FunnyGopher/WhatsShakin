@@ -15,8 +15,11 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EarthquakeFeedAdapter extends BaseAdapter {
 
@@ -48,14 +51,19 @@ public class EarthquakeFeedAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.earthquake_feed_list_item, parent, false);
         }
 
-        TextView title = (TextView) convertView.findViewById(R.id.earthquake_title);
-        TextView date = (TextView) convertView.findViewById(R.id.earthquake_date);
-        TextView magnitude = (TextView) convertView.findViewById(R.id.earthquake_magnitude);
+        TextView title_view = (TextView) convertView.findViewById(R.id.earthquake_title);
+        TextView date_view = (TextView) convertView.findViewById(R.id.earthquake_date);
+        TextView magnitude_view = (TextView) convertView.findViewById(R.id.earthquake_magnitude);
 
         Earthquake earthquake = getItem(position);
-        title.setText(earthquake.getTitle());
-        date.setText(earthquake.getDateString());
-        magnitude.setText(earthquake.getMagnitudeString());
+        title_view.setText(earthquake.getTitle());
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        Date date = earthquake.getDate();
+        date_view.setText(timeFormat.format(date) + " @ " + dateFormat.format(date));
+
+        magnitude_view.setText("Magnitude: " + Double.toString(earthquake.getMagnitude()));
         return convertView;
     }
 
