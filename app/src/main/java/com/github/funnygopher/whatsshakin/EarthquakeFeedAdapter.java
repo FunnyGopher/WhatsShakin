@@ -2,6 +2,7 @@ package com.github.funnygopher.whatsshakin;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.Locale;
 public class EarthquakeFeedAdapter extends BaseAdapter {
 
     private Context mContext;
+    private GetEarthquakeFeedTask earthquakeFeedTask;
     private List<Earthquake> mEarthquakes;
 
     public EarthquakeFeedAdapter(Context context) {
@@ -64,15 +66,15 @@ public class EarthquakeFeedAdapter extends BaseAdapter {
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         Date date = earthquake.getDate();
-        date_view.setText(timeFormat.format(date) + " @ " + dateFormat.format(date));
+        date_view.setText(dateFormat.format(date) + " @ " + timeFormat.format(date));
 
         magnitude_view.setText("Magnitude: " + Double.toString(earthquake.getMagnitude()));
         return convertView;
     }
 
     public void fetchEarthquakeFeed(String feedUrl) {
-        new GetEarthquakeFeedTask(this, feedUrl).execute();
-        notifyDataSetChanged();
+        earthquakeFeedTask = new GetEarthquakeFeedTask(this, feedUrl);
+        earthquakeFeedTask.execute();
     }
 
     public class GetEarthquakeFeedTask extends AsyncTask<Void, Void, List<Earthquake>> {
@@ -85,6 +87,13 @@ public class EarthquakeFeedAdapter extends BaseAdapter {
             this.mAdapter = adapter;
             this.mFeedUrl = feedUrl;
             mProgressDialog = new ProgressDialog(mContext);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    earthquakeFeedTask.cancel(true);
+                }
+            });
         }
 
         @Override

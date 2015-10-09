@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mEarthquakeFragment = new EarthquakeFragment();
-
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         mSpinner = (Spinner) findViewById(R.id.spinner_earthquake_filter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -48,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSpinner.setVisibility(View.VISIBLE);
 
+        mEarthquakeFragment = new EarthquakeFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, mEarthquakeFragment);
         transaction.commit();
