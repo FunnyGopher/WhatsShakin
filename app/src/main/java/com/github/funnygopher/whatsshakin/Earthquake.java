@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import android.location.Location;
 
 public class Earthquake {
+    private Long _id;
     private String title;
     private Date date;
     private double latitude;
